@@ -6,7 +6,7 @@ import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import java.util.Collection;
 
 public interface AccountRepository {
-    void persist(Account account);
+    boolean persist(Account account);
 
     Collection<Account> getBy(DiscordUser user);
 }

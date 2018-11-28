@@ -25,17 +25,19 @@ public class FirestoreUsersRepository implements UsersRepository {
     FirestoreDocuments _firestoreDocuments;
 
     @Override
-    public void persist(final DiscordUser discordUser) {
+    public boolean persist(final DiscordUser discordUser) {
         try {
             final DocumentSnapshot userDocument = users().document(discordUser.discordUserName()).get().get();
             if (userDocument.exists()) {
                 users().document(discordUser.discordUserName()).update(_firestoreDocuments.discordUser().toDocument(discordUser)).get();
-                return;
+                return true;
             }
 
             users().document(discordUser.discordUserName()).create(_firestoreDocuments.discordUser().toDocument(discordUser)).get();
+            return true;
         } catch (Exception e) {
             _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist user").build());
+            return false;
         }
     }
 

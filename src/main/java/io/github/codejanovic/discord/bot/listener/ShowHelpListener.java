@@ -27,7 +27,7 @@ public class ShowHelpListener extends MessageCreatedListener {
     protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
         final EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Discord Gaming Bot Manual");
-        builder.setColor(Color.red);
+        builder.setColor(Color.yellow);
         builder.setFooter("made by tibbot.org");
         builder.addField("Create a profile", String.format("@%s create profile (or direct message me)", _bot.name()));
         builder.addField("Show your profile", String.format("@%s show profile (or direct message me)", _bot.name()));

@@ -25,16 +25,18 @@ public class FirestoreAccountRepository implements AccountRepository {
     FirestoreDocuments _firestoreDocuments;
 
     @Override
-    public void persist(final Account account) {
+    public boolean persist(final Account account) {
         try {
             final DocumentSnapshot accountDocument = accounts().document(account.id()).get().get();
             if (accountDocument.exists()) {
-                accounts().document(account.id()).update(_firestoreDocuments.account().toDocument(account));
-                return;
+                accounts().document(account.id()).update(_firestoreDocuments.account().toDocument(account)).get();
+                return true;
             }
-            accounts().document(account.id()).create(_firestoreDocuments.account().toDocument(account));
+            accounts().document(account.id()).create(_firestoreDocuments.account().toDocument(account)).get();
+            return true;
         } catch (Exception e) {
             _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist account").build());
+            return false;
         }
     }
 
