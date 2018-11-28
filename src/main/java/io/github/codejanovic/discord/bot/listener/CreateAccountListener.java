@@ -55,6 +55,7 @@ public class CreateAccountListener extends MessageCreatedListener {
 
         _accountRepository.persist(new Account.Mutable()
                 .withProviderId(matchingProvider.get().id())
+                .withAccountId(account)
                 .withUserId(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build().discordUserName())
                 .build());
     }

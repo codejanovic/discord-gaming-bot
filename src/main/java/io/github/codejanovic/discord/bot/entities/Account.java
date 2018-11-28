@@ -9,12 +9,21 @@ import static java.util.Objects.requireNonNull;
 public interface Account {
     String id();
 
+    String accountId();
+
     String providerId();
 
     String userId();
 
     final class Mutable implements Builder<Account> {
         private String _providerId;
+
+        private String _accountId;
+
+        public Mutable withAccountId(final String accountId) {
+            _accountId = requireNonNull(accountId);
+            return this;
+        }
         private String _userId;
 
         public Mutable withProviderId(final String providerId) {
@@ -29,15 +38,17 @@ public interface Account {
 
         @Override
         public Account build() {
-            return new Account.Of(_providerId, _userId);
+            return new Account.Of(_providerId, _userId, _accountId);
         }
     }
     final class Of implements Account {
         private final String _id;
         private final String _providerId;
         private final String _userId;
+        private final String _accountId;
 
-        public Of(final String providerId, final String userId) {
+        public Of(final String providerId, final String userId, final String accountId) {
+            _accountId = accountId;
             _id = userId + "_" + providerId;
             _providerId = requireNonNull(providerId);
             _userId = requireNonNull(userId);
@@ -61,6 +72,11 @@ public interface Account {
         @Override
         public String id() {
             return _id;
+        }
+
+        @Override
+        public String accountId() {
+            return _accountId;
         }
 
         @Override

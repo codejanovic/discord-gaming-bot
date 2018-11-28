@@ -12,6 +12,7 @@ public class AccountDocument implements FirestoreDocument<Account> {
     public Map<String, Object> toDocument(final Account account) {
         final Map<String, Object> map = new HashMap<>();
         map.put("id", account.id());
+        map.put("accountId", account.accountId());
         map.put("providerId", account.providerId());
         map.put("userId", account.userId());
         return map;
@@ -22,6 +23,7 @@ public class AccountDocument implements FirestoreDocument<Account> {
         return new Account.Mutable()
                 .withUserId(String.valueOf(fields.get("userId")))
                 .withProviderId(String.valueOf(fields.get("providerId")))
+                .withAccountId(String.valueOf(fields.get("accountId")))
                 .build();
     }
 }
