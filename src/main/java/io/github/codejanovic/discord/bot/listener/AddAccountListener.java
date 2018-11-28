@@ -1,10 +1,10 @@
 package io.github.codejanovic.discord.bot.listener;
 
+import io.github.codejanovic.discord.bot.DiscordBot;
 import io.github.codejanovic.discord.bot.entities.Account;
 import io.github.codejanovic.discord.bot.entities.AccountProvider;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
-import io.github.codejanovic.discord.bot.listener.interests.MessageCreatedInterest;
 import io.github.codejanovic.discord.bot.repository.AccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.AccountRepository;
 import org.javacord.api.entity.message.Message;
@@ -29,10 +29,15 @@ public class AddAccountListener extends MessageCreatedListener {
     AccountProviderRepository _accountProviderRepository;
     @Inject
     AccountRepository _accountRepository;
+    @Inject
+    DiscordBot _bot;
 
     @Override
     protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
-        final String[] commandParams = event.getMessage().getReadableContent().replace("!profile add account", "").trim().split(" ");
+        final String[] commandParams = event.getMessage()
+                .getContent()
+                .replace(String.format("<@!%s>", _bot.userId()), "")
+                .replace("add account", "").trim().split(" ");
         if (commandParams.length != 2) {
             event.getChannel().sendMessage("Please provide an account-provider (eg Steam) and an account-id (eg yourSteamId) for adding an account.");
             return;
@@ -62,6 +67,7 @@ public class AddAccountListener extends MessageCreatedListener {
 
     @Override
     protected Predicate<MessageCreateEvent> messageFilter() {
-        return new MessageCreatedInterest.Command("!profile add account");
+        return _interest.isDirectMessage().and(_interest.isCommand("add account"))
+                .or(_interest.isTalkingToMe().and(_interest.isCommand("add account")));
     }
 }

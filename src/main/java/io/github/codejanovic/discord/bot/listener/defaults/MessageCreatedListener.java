@@ -1,5 +1,6 @@
 package io.github.codejanovic.discord.bot.listener.defaults;
 
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import org.javacord.api.entity.channel.*;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
@@ -8,12 +9,18 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
+import org.jusecase.inject.Component;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+@Component
 public abstract class MessageCreatedListener implements MessageCreateListener {
+
+    @Inject
+    protected MessageInterestFactory _interest;
 
     @Override
     public final void onMessageCreate(final MessageCreateEvent event) {

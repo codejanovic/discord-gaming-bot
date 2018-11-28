@@ -2,7 +2,6 @@ package io.github.codejanovic.discord.bot.listener;
 
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
-import io.github.codejanovic.discord.bot.listener.interests.MessageCreatedInterest;
 import io.github.codejanovic.discord.bot.repository.UsersRepository;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
@@ -30,6 +29,7 @@ public class CreateProfileListener extends MessageCreatedListener {
 
     @Override
     protected Predicate<MessageCreateEvent> messageFilter() {
-        return new MessageCreatedInterest.Command("!profile create");
+        return _interest.isDirectMessage().and(_interest.isCommand("create profile"))
+                .or(_interest.isTalkingToMe().and(_interest.isCommand("create profile")));
     }
 }

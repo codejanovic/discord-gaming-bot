@@ -8,6 +8,7 @@ import io.github.codejanovic.discord.bot.listener.AddAccountListener;
 import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
 import io.github.codejanovic.discord.bot.listener.ShowHelpListener;
 import io.github.codejanovic.discord.bot.listener.ShowProfileListener;
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreAccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreAccountRepository;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreDocuments;
@@ -40,8 +41,9 @@ public class Registry {
 
     private void addApis() {
         _injector.addProviderForSingleInstance(DiscordApiProvider.class);
-        _injector.add(DiscordBot.BySystemProperty.class);
+        _injector.add(DiscordBot.Api.class);
         _injector.addProviderForSingleInstance(FirestoreProvider.class);
+        _injector.add(MessageInterestFactory.class);
     }
 
 
