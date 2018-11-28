@@ -7,11 +7,14 @@ import io.github.codejanovic.discord.bot.logging.PropertyMessageBuilder;
 import io.github.codejanovic.discord.bot.repository.AccountProviderRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
+@Component
 public class FirestoreAccountProviderRepository implements AccountProviderRepository {
     private static final Logger _log = LogManager.getLogger(FirestoreAccountProviderRepository.class);
     @Inject
@@ -29,8 +32,8 @@ public class FirestoreAccountProviderRepository implements AccountProviderReposi
 
         } catch (Exception e) {
             _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to query providers"));
+            return Collections.emptyList();
         }
-        return null;
     }
 
     private CollectionReference providers() {

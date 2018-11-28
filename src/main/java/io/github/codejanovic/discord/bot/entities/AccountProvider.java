@@ -10,6 +10,10 @@ public interface AccountProvider {
 
     String command();
 
+    default String asCommandHelp() {
+        return String.format("%s (type: %s)", name(), command());
+    }
+
     final class Of implements AccountProvider {
         private final String _name;
         private final String _command;

@@ -35,7 +35,7 @@ public class FirestoreUsersRepository implements UsersRepository {
 
             users().document(discordUser.discordUserName()).create(_firestoreDocuments.discordUser().toDocument(discordUser)).get();
         } catch (Exception e) {
-            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist user"));
+            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist user").build());
         }
     }
 
@@ -45,7 +45,7 @@ public class FirestoreUsersRepository implements UsersRepository {
             final DocumentSnapshot userDocument = users().document(discordUser.discordUserName()).get().get();
             return _firestoreDocuments.discordUser().toEntity(userDocument);
         } catch (Exception e) {
-            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist user"));
+            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist user").build());
             return Optional.empty();
         }
     }
