@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class ShowProfileListener extends MessageCreatedListener {
     AccountProviderRepository _accountProviderRepository;
 
     @Override
-    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
+    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
         final List<User> mentionedUsers = event.getMessage().getMentionedUsers();
         final DiscordUser profileOf = mentionedUsers.isEmpty() ? new DiscordUser.Mutable().withDiscordUser(authorAsUser).build() : new DiscordUser.Mutable().withDiscordUser(mentionedUsers.get(0)).build();
         final Collection<Account> accountsToShow = _accountRepository.getBy(profileOf);

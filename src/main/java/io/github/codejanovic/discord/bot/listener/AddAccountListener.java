@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @Component
-public class CreateAccountListener extends MessageCreatedListener {
+public class AddAccountListener extends MessageCreatedListener {
 
     @Inject
     AccountProviderRepository _accountProviderRepository;
@@ -31,7 +31,7 @@ public class CreateAccountListener extends MessageCreatedListener {
     AccountRepository _accountRepository;
 
     @Override
-    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
+    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
         final String[] commandParams = event.getMessage().getReadableContent().replace("!profile add account", "").trim().split(" ");
         if (commandParams.length != 2) {
             event.getChannel().sendMessage("Please provide an account-provider (eg Steam) and an account-id (eg yourSteamId) for adding an account.");

@@ -10,6 +10,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public abstract class MessageCreatedListener implements MessageCreateListener {
@@ -19,13 +20,13 @@ public abstract class MessageCreatedListener implements MessageCreateListener {
         if (!messageFilter().test(event)) {
             return;
         }
-        onReceivedMessageAnywhere(event, event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer().get(), event.getMessage(), event.getMessageAttachments());
+        onReceivedMessageAnywhere(event, event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer(), event.getMessage(), event.getMessageAttachments());
         switch (event.getChannel().getType()) {
             case SERVER_TEXT_CHANNEL:
                 onReceivedMessageInTextChannel(event.getChannel().asServerTextChannel().get(), event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer().get(), event.getMessage(), event.getMessageAttachments());
                 break;
             case PRIVATE_CHANNEL:
-                onReceivedPrivateMessage(event.getChannel().asPrivateChannel().get(), event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer().get(), event.getMessage(), event.getMessageAttachments());
+                onReceivedPrivateMessage(event.getChannel().asPrivateChannel().get(), event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getMessage(), event.getMessageAttachments());
                 break;
             case SERVER_VOICE_CHANNEL:
                 onReceivedMessageInVoiceChannel(event.getChannel().asServerVoiceChannel().get(), event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer().get(), event.getMessage(), event.getMessageAttachments());
@@ -59,11 +60,11 @@ public abstract class MessageCreatedListener implements MessageCreateListener {
 
     }
 
-    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
+    protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
 
     }
 
-    protected void onReceivedPrivateMessage(final PrivateChannel privateChannel, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
+    protected void onReceivedPrivateMessage(final PrivateChannel privateChannel, final MessageAuthor author, final User authorAsUser, final Message message, final List<MessageAttachment> messageAttachments) {
 
     }
 
