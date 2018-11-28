@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/web,java,macos,gradle,windows,java-web
 
+firestore-credentials.json
+docker-compose.yml
 **/*.iml
 .idea/
 ### Java ###
