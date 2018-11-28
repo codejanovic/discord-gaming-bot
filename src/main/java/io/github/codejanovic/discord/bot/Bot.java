@@ -1,7 +1,7 @@
 package io.github.codejanovic.discord.bot;
 
 
-import com.google.cloud.firestore.Firestore;
+import io.github.codejanovic.discord.bot.listener.CreateAccountListener;
 import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
 import org.javacord.api.DiscordApi;
 import org.jusecase.inject.Component;
@@ -26,9 +26,10 @@ public class Bot {
     CreateProfileListener _createProfileListener;
 
     @Inject
-    Firestore _firestore;
+    CreateAccountListener _createAccountListener;
 
     public void start() {
         _api.addMessageCreateListener(_createProfileListener);
+        _api.addMessageCreateListener(_createAccountListener);
     }
 }
