@@ -17,6 +17,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,8 @@ public class ShowProfileListener extends MessageCreatedListener {
 
         final EmbedBuilder builder = new EmbedBuilder();
         builder.setDescription(String.format("Gaming Profile of <@%s>", profileOf.discordUserId()));
+        builder.setColor(Color.green);
+        builder.setFooter("made by tibbot.org");
         for (Account account : accountsToShow) {
             builder.addField(providers.get(account.providerId()).name(), account.accountId());
         }

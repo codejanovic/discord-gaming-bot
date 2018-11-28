@@ -24,6 +24,7 @@ public class ShowHelpListener extends MessageCreatedListener {
         final EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Discord Gaming Bot Manual");
         builder.setColor(Color.red);
+        builder.setFooter("made by tibbot.org");
         builder.addField("Create a profile", "!profile create");
         builder.addField("Show your profile", "!profile show");
         builder.addField("Show profile of a friend", "!profile show @mention");
