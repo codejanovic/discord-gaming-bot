@@ -6,6 +6,7 @@ import io.github.codejanovic.discord.bot.inject.provider.DiscordApiProvider;
 import io.github.codejanovic.discord.bot.inject.provider.FirestoreProvider;
 import io.github.codejanovic.discord.bot.listener.CreateAccountListener;
 import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
+import io.github.codejanovic.discord.bot.repository.firestore.FirestoreAccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreDocuments;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreUsersRepository;
 import org.jusecase.inject.Injector;
@@ -45,6 +46,7 @@ public class Registry {
 
     private void addRepositories() {
         _injector.add(FirestoreUsersRepository.class);
+        _injector.add(FirestoreAccountProviderRepository.class);
     }
 
 

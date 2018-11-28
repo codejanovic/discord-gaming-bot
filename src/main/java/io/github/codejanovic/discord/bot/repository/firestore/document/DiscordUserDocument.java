@@ -1,11 +1,9 @@
 package io.github.codejanovic.discord.bot.repository.firestore.document;
 
-import com.google.cloud.firestore.DocumentSnapshot;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 
 public class DiscordUserDocument implements FirestoreDocument<DiscordUser> {
@@ -19,14 +17,10 @@ public class DiscordUserDocument implements FirestoreDocument<DiscordUser> {
     }
 
     @Override
-    public Optional<DiscordUser> toEntity(final DocumentSnapshot snapshot) {
-        if (!snapshot.exists()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new DiscordUser.Mutable()
-                .withDiscordUserId(String.valueOf(snapshot.getData().get("discordUserId")))
-                .withDiscordUserName(String.valueOf(snapshot.getData().get("discordUserName")))
-                .build());
+    public DiscordUser toEntity(final Map<String, Object> fields) {
+        return new DiscordUser.Mutable()
+                .withDiscordUserId(String.valueOf(fields.get("discordUserId")))
+                .withDiscordUserName(String.valueOf(fields.get("discordUserName")))
+                .build();
     }
 }

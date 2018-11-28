@@ -8,5 +8,13 @@ import java.util.Optional;
 public interface FirestoreDocument<T> {
     Map<String, Object> toDocument(T entity);
 
-    Optional<T> toEntity(final DocumentSnapshot snapshot);
+    T toEntity(final Map<String, Object> fields);
+
+    default Optional<T> toEntity(final DocumentSnapshot snapshot) {
+        if (!snapshot.exists()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(toEntity(snapshot.getData()));
+    }
 }
