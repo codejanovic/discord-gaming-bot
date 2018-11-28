@@ -3,6 +3,7 @@ package io.github.codejanovic.discord.bot;
 
 import io.github.codejanovic.discord.bot.listener.CreateAccountListener;
 import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
+import io.github.codejanovic.discord.bot.listener.ShowProfileListener;
 import org.javacord.api.DiscordApi;
 import org.jusecase.inject.Component;
 
@@ -28,8 +29,12 @@ public class Bot {
     @Inject
     CreateAccountListener _createAccountListener;
 
+    @Inject
+    ShowProfileListener _showProfileListener;
+
     public void start() {
         _api.addMessageCreateListener(_createProfileListener);
         _api.addMessageCreateListener(_createAccountListener);
+        _api.addMessageCreateListener(_showProfileListener);
     }
 }

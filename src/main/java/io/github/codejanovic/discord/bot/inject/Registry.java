@@ -6,6 +6,7 @@ import io.github.codejanovic.discord.bot.inject.provider.DiscordApiProvider;
 import io.github.codejanovic.discord.bot.inject.provider.FirestoreProvider;
 import io.github.codejanovic.discord.bot.listener.CreateAccountListener;
 import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
+import io.github.codejanovic.discord.bot.listener.ShowProfileListener;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreAccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreAccountRepository;
 import io.github.codejanovic.discord.bot.repository.firestore.FirestoreDocuments;
@@ -32,6 +33,7 @@ public class Registry {
     private void addDiscordApiListeners() {
         _injector.add(CreateProfileListener.class);
         _injector.add(CreateAccountListener.class);
+        _injector.add(ShowProfileListener.class);
     }
 
     private void addApis() {

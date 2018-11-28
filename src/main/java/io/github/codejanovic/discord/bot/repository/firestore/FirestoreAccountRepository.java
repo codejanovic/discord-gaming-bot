@@ -4,6 +4,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import io.github.codejanovic.discord.bot.entities.Account;
+import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.logging.PropertyMessageBuilder;
 import io.github.codejanovic.discord.bot.repository.AccountRepository;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Component
 public class FirestoreAccountRepository implements AccountRepository {
@@ -31,6 +35,19 @@ public class FirestoreAccountRepository implements AccountRepository {
             accounts().document(account.id()).create(_firestoreDocuments.account().toDocument(account));
         } catch (Exception e) {
             _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to persist account").build());
+        }
+    }
+
+    @Override
+    public Collection<Account> getBy(final DiscordUser user) {
+        try {
+            return accounts().whereEqualTo("userId", user.discordUserName()).get().get().getDocuments()
+                    .stream()
+                    .map(q -> _firestoreDocuments.account().toEntity(q.getData()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to query accounts").build());
+            return Collections.emptyList();
         }
     }
 
