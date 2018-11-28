@@ -1,9 +1,12 @@
 package io.github.codejanovic.discord.bot.listener;
 
+import io.github.codejanovic.discord.bot.entities.Account;
 import io.github.codejanovic.discord.bot.entities.AccountProvider;
+import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
 import io.github.codejanovic.discord.bot.listener.interests.MessageCreatedInterest;
 import io.github.codejanovic.discord.bot.repository.AccountProviderRepository;
+import io.github.codejanovic.discord.bot.repository.AccountRepository;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
@@ -16,6 +19,7 @@ import org.jusecase.inject.Component;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 @Component
@@ -23,6 +27,8 @@ public class CreateAccountListener extends MessageCreatedListener {
 
     @Inject
     AccountProviderRepository _accountProviderRepository;
+    @Inject
+    AccountRepository _accountRepository;
 
     @Override
     protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
@@ -36,7 +42,8 @@ public class CreateAccountListener extends MessageCreatedListener {
         final String account = commandParams[1];
 
         final Collection<AccountProvider> providers = _accountProviderRepository.getAll();
-        if (providers.stream().noneMatch(p -> p.command().equalsIgnoreCase(provider))) {
+        final Optional<AccountProvider> matchingProvider = providers.stream().filter(p -> p.command().equalsIgnoreCase(provider)).findFirst();
+        if (!matchingProvider.isPresent()) {
             event.getChannel().sendMessage("Please provide a valid account-provider as first parameter. Supported providers are:");
             EmbedBuilder supportedProviders = new EmbedBuilder();
             for (AccountProvider p : providers) {
@@ -46,7 +53,10 @@ public class CreateAccountListener extends MessageCreatedListener {
             return;
         }
 
-
+        _accountRepository.persist(new Account.Mutable()
+                .withProviderId(matchingProvider.get().id())
+                .withUserId(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build().discordUserName())
+                .build());
     }
 
     @Override

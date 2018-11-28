@@ -1,6 +1,10 @@
 package io.github.codejanovic.discord.bot.entities;
 
+import io.github.codejanovic.discord.bot.common.Builder;
+
 import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 public interface Account {
     String id();
@@ -9,15 +13,34 @@ public interface Account {
 
     String userId();
 
+    final class Mutable implements Builder<Account> {
+        private String _providerId;
+        private String _userId;
+
+        public Mutable withProviderId(final String providerId) {
+            _providerId = requireNonNull(providerId);
+            return this;
+        }
+
+        public Mutable withUserId(final String userId) {
+            _userId = requireNonNull(userId);
+            return this;
+        }
+
+        @Override
+        public Account build() {
+            return new Account.Of(_providerId, _userId);
+        }
+    }
     final class Of implements Account {
         private final String _id;
         private final String _providerId;
         private final String _userId;
 
-        public Of(final String id, final String providerId, final String userId) {
-            _id = id;
-            _providerId = providerId;
-            _userId = userId;
+        public Of(final String providerId, final String userId) {
+            _id = userId + "_" + providerId;
+            _providerId = requireNonNull(providerId);
+            _userId = requireNonNull(userId);
         }
 
         @Override
