@@ -1,4 +1,4 @@
-package io.github.codejanovic.discord.bot.repository;
+package io.github.codejanovic.discord.bot.repository.firestore;
 
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -6,6 +6,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.logging.PropertyMessageBuilder;
+import io.github.codejanovic.discord.bot.repository.UsersRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jusecase.inject.Component;

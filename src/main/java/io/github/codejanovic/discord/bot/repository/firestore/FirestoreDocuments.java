@@ -1,7 +1,8 @@
-package io.github.codejanovic.discord.bot.repository;
+package io.github.codejanovic.discord.bot.repository.firestore;
 
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
-import io.github.codejanovic.discord.bot.repository.document.DiscordUserDocument;
+import io.github.codejanovic.discord.bot.repository.firestore.document.DiscordUserDocument;
+import io.github.codejanovic.discord.bot.repository.firestore.document.FirestoreDocument;
 
 public class FirestoreDocuments {
 

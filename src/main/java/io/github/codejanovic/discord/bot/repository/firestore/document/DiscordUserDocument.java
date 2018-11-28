@@ -1,8 +1,7 @@
-package io.github.codejanovic.discord.bot.repository.document;
+package io.github.codejanovic.discord.bot.repository.firestore.document;
 
 import com.google.cloud.firestore.DocumentSnapshot;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
-import io.github.codejanovic.discord.bot.repository.FirestoreDocument;
 
 import java.util.HashMap;
 import java.util.Map;

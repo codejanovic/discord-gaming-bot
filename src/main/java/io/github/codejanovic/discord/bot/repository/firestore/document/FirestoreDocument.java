@@ -1,4 +1,4 @@
-package io.github.codejanovic.discord.bot.repository;
+package io.github.codejanovic.discord.bot.repository.firestore.document;
 
 import com.google.cloud.firestore.DocumentSnapshot;
 
