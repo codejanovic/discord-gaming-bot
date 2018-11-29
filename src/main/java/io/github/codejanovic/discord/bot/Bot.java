@@ -10,15 +10,6 @@ import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
 
-/**
- * required System properties:
- * * xodusDirectory, default: /srv/.xodus
- * * botName, default: Gaben
- * * botToken, no default
- * * adminUsers, no default
- * * adminRoles, no default
- */
-
 @Component
 public class Bot {
     @Inject
