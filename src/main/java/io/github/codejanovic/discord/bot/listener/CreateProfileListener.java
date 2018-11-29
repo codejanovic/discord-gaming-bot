@@ -29,18 +29,21 @@ public class CreateProfileListener extends MessageCreatedListener {
 
     @Override
     protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {
-        final EmbedBuilder builder = new EmbedBuilder();
         if (_usersRepository.persist(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build())) {
-            builder.setTitle("Next Steps");
+            final EmbedBuilder builder = new EmbedBuilder();
+            builder.setDescription("Next Steps are:");
             builder.setColor(Color.green);
             builder.setFooter("made by tibbot.org");
             builder.addField("Tell me anywhere to add your accounts ", String.format("@%s add account ", _bot.name()));
             builder.addField(".. or Direct Message me to add your accounts ", "add account ");
+            event.getChannel().sendMessage("Your profile has been successfully upserted!", builder);
         } else {
+            final EmbedBuilder builder = new EmbedBuilder();
             builder.setTitle("Oops, something went horribly wrong!");
+            builder.setDescription("Stay tuned, our developers are informed!");
             builder.setColor(Color.red);
             builder.setFooter("made by tibbot.org");
-            builder.addField("An erro occured", "stay tuned, our developers are informed!");
+            event.getChannel().sendMessage(builder);
         }
     }
 

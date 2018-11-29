@@ -17,6 +17,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -58,11 +59,27 @@ public class AddAccountListener extends MessageCreatedListener {
             return;
         }
 
-        _accountRepository.persist(new Account.Mutable()
+
+        if (_accountRepository.persist(new Account.Mutable()
                 .withProviderId(matchingProvider.get().id())
                 .withAccountId(account)
                 .withUserId(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build().discordUserName())
-                .build());
+                .build())) {
+            final EmbedBuilder builder = new EmbedBuilder();
+            builder.setDescription("Next Steps are:");
+            builder.setColor(Color.green);
+            builder.setFooter("made by tibbot.org");
+            builder.addField("Tell me anywhere to show your or a friends profile", String.format("@%s show profile @mention", _bot.name()));
+            builder.addField(".. or Direct Message me to show your or a friends profile ", "show profile @mention");
+            event.getChannel().sendMessage("Your account has been successfully upserted!", builder);
+        } else {
+            final EmbedBuilder builder = new EmbedBuilder();
+            builder.setTitle("Oops, something went horribly wrong!");
+            builder.setDescription("Stay tuned, our developers are informed!");
+            builder.setColor(Color.red);
+            builder.setFooter("made by tibbot.org");
+            event.getChannel().sendMessage(builder);
+        }
     }
 
     @Override
