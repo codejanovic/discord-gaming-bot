@@ -34,7 +34,8 @@ public interface MessageCreatedInterest extends Predicate<MessageCreateEvent> {
 
         @Override
         public boolean test(final MessageCreateEvent event) {
-            return event.getMessage().getContent().startsWith(String.format("<@!%s>", _bot.userId()));
+            return event.getMessage().getContent().startsWith(String.format("<@!%s>", _bot.userId())) ||
+                    event.getMessage().getContent().startsWith(String.format("<@%s>", _bot.userId()));
         }
     }
 
@@ -59,6 +60,7 @@ public interface MessageCreatedInterest extends Predicate<MessageCreateEvent> {
         public boolean test(final MessageCreateEvent event) {
             return event.getMessage().getContent()
                     .replace(String.format("<@!%s>", _discordBot.userId()), "")
+                    .replace(String.format("<@%s>", _discordBot.userId()), "")
                     .trim()
                     .startsWith(_value);
         }
