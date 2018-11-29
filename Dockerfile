@@ -4,10 +4,10 @@ COPY pom.xml /usr/app
 RUN mvn -f /usr/app/pom.xml clean package
 
 FROM java:8
-ENV BOT_NAME="Gaben"
 ENV BOT_TOKEN="someValidToken"
+ENV FIRESTORE_CREDENTIALS="/some/path/to/credentials.json"
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
 COPY --from=builder /usr/app/target/discord-gaming-bot.jar /usr/app/discord-gaming-bot.jar
 VOLUME /var/lib/discord-gaming-bot
-CMD java -DxodusDirectory=/var/lib/discord-gaming-bot/.xodus -DbotName=$BOT_NAME -DbotToken=$BOT_TOKEN -Djava.security.egd=file:/dev/./urandom -jar discord-gaming-bot.jar
+CMD java -DbotToken=$BOT_TOKEN -Dcredentials=$FIRESTORE_CREDENTIALS -Djava.security.egd=file:/dev/./urandom -jar discord-gaming-bot.jar
