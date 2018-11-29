@@ -4,4 +4,5 @@
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]()
 
 # discord-gaming-bot
-Simple Discord Bot to tag users with gaming roles 
+Simple Discord Bot that helps you share your Gaming Accounts with other Discord Users
+
