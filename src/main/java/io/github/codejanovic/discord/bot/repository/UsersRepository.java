@@ -8,4 +8,7 @@ public interface UsersRepository {
     boolean persist(final DiscordUser discordUser);
 
     Optional<DiscordUser> getBy(final DiscordUser discordUser);
+
+    boolean delete(DiscordUser user);
+
 }

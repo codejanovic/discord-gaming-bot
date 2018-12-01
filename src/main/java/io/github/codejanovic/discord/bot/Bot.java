@@ -1,10 +1,7 @@
 package io.github.codejanovic.discord.bot;
 
 
-import io.github.codejanovic.discord.bot.listener.AddAccountListener;
-import io.github.codejanovic.discord.bot.listener.CreateProfileListener;
-import io.github.codejanovic.discord.bot.listener.ShowHelpListener;
-import io.github.codejanovic.discord.bot.listener.ShowProfileListener;
+import io.github.codejanovic.discord.bot.listener.*;
 import org.javacord.api.DiscordApi;
 import org.jusecase.inject.Component;
 
@@ -27,10 +24,14 @@ public class Bot {
     @Inject
     ShowHelpListener _showHelpListener;
 
+    @Inject
+    DeleteProfileListener _deleteProfileListener;
+
     public void start() {
         _api.addMessageCreateListener(_createProfileListener);
         _api.addMessageCreateListener(_addAccountListener);
         _api.addMessageCreateListener(_showProfileListener);
         _api.addMessageCreateListener(_showHelpListener);
+        _api.addMessageCreateListener(_deleteProfileListener);
     }
 }

@@ -22,9 +22,15 @@ public abstract class MessageCreatedListener implements MessageCreateListener {
     @Inject
     protected MessageInterestFactory _interest;
 
+    private Predicate<MessageCreateEvent> _eventFilter;
+
+    protected MessageCreatedListener() {
+        _eventFilter = provideEventFilter();
+    }
+
     @Override
     public final void onMessageCreate(final MessageCreateEvent event) {
-        if (!messageFilter().test(event)) {
+        if (!_eventFilter.test(event)) {
             return;
         }
         onReceivedMessageAnywhere(event, event.getMessageAuthor(), event.getMessageAuthor().asUser().get(), event.getServer(), event.getMessage(), event.getMessageAttachments());
@@ -49,7 +55,7 @@ public abstract class MessageCreatedListener implements MessageCreateListener {
         }
     }
 
-    protected abstract Predicate<MessageCreateEvent> messageFilter();
+    protected abstract Predicate<MessageCreateEvent> provideEventFilter();
 
     protected void onReceivedMessageInCategoryChannel(final ChannelCategory channelCategory, final MessageAuthor author, final User authorAsUser, final Server server, final Message message, final List<MessageAttachment> messageAttachments) {
 

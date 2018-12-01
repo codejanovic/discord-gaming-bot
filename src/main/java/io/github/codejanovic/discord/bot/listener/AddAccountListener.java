@@ -83,8 +83,7 @@ public class AddAccountListener extends MessageCreatedListener {
     }
 
     @Override
-    protected Predicate<MessageCreateEvent> messageFilter() {
-        return _interest.isDirectMessage().and(_interest.isCommand("add account"))
-                .or(_interest.isTalkingToMe().and(_interest.isCommand("add account")));
+    protected Predicate<MessageCreateEvent> provideEventFilter() {
+        return _interest.isOfInterest("add account");
     }
 }

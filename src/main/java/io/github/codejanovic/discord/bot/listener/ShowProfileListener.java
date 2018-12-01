@@ -57,8 +57,7 @@ public class ShowProfileListener extends MessageCreatedListener {
     }
 
     @Override
-    protected Predicate<MessageCreateEvent> messageFilter() {
-        return _interest.isDirectMessage().and(_interest.isCommand("show profile"))
-                .or(_interest.isTalkingToMe().and(_interest.isCommand("show profile")));
+    protected Predicate<MessageCreateEvent> provideEventFilter() {
+        return _interest.isOfInterest("show profile");
     }
 }

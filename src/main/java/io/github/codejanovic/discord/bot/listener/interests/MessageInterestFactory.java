@@ -1,6 +1,7 @@
 package io.github.codejanovic.discord.bot.listener.interests;
 
 import io.github.codejanovic.discord.bot.DiscordBot;
+import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.jusecase.inject.Component;
 
@@ -24,11 +25,28 @@ public final class MessageInterestFactory {
         return new MessageCreatedInterest.IsTalkingToMe(_bot);
     }
 
+    public Predicate<MessageCreateEvent> isAuthorMyself() {
+        return m -> m.getMessage().getAuthor().isYourself();
+    }
+
+    public Predicate<MessageCreateEvent> isAuthorAnotherBot() {
+        return m -> m.getMessage().getAuthor()
+                .asUser()
+                .map(User::isBot)
+                .orElse(false);
+    }
+
     public Predicate<MessageCreateEvent> isMentioningMe() {
         return new MessageCreatedInterest.IsMentioningMe();
     }
 
     public Predicate<MessageCreateEvent> isDirectMessage() {
         return new MessageCreatedInterest.IsDirectMessage();
+    }
+
+    public Predicate<MessageCreateEvent> isOfInterest(final String command) {
+        return isAuthorAnotherBot().negate().or(isAuthorMyself().negate())
+                .and(isDirectMessage().and(isCommand(command))
+                        .or(isTalkingToMe().and(isCommand(command))));
     }
 }

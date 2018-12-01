@@ -18,6 +18,16 @@ create profile
 
 After the profile has been successfully created, the Bot will tell you about your next Steps.
 
+## Deleting a Profile
+If you want to delete all your data, simply say 
+```
+@GamingBot delete profile
+```
+or within a private message without a mention:
+```
+delete profile
+```
+
 ## Add Account data
 After creating a profile you will be able to add your account data of the supported platforms, that are:
 * Steam 

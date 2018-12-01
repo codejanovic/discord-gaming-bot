@@ -39,8 +39,7 @@ public class ShowHelpListener extends MessageCreatedListener {
     }
 
     @Override
-    protected Predicate<MessageCreateEvent> messageFilter() {
-        return _interest.isDirectMessage().and(_interest.isCommand("help").or(_interest.isCommand("rtfm")))
-                .or(_interest.isTalkingToMe().and(_interest.isCommand("help").or(_interest.isCommand("rtfm"))));
+    protected Predicate<MessageCreateEvent> provideEventFilter() {
+        return _interest.isOfInterest("help").or(_interest.isOfInterest("rtfm"));
     }
 }

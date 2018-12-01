@@ -3,7 +3,6 @@ package io.github.codejanovic.discord.bot.repository.firestore;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.logging.PropertyMessageBuilder;
 import io.github.codejanovic.discord.bot.repository.UsersRepository;
@@ -12,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -52,17 +50,22 @@ public class FirestoreUsersRepository implements UsersRepository {
         }
     }
 
-    private CollectionReference users() {
-        return _firestore.collection("users");
+    @Override
+    public boolean delete(final DiscordUser user) {
+        try {
+            final Optional<DiscordUser> registeredUser = getBy(user);
+
+            if (registeredUser.isPresent()) {
+                users().document(user.discordUserName()).delete().get();
+            }
+            return true;
+        } catch (Exception e) {
+            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to delete profile for user " + user.discordUserName()).build());
+            return false;
+        }
     }
 
-    private void test() {
-        try {
-            final DocumentSnapshot user = _firestore.collection("users").document("dammi#6677").get().get();
-            final List<QueryDocumentSnapshot> accounts = _firestore.collection("accounts").whereEqualTo("userId", "dammi#6677").get().get().getDocuments();
-            final List<QueryDocumentSnapshot> providers = _firestore.collection("providers").get().get().getDocuments();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+    private CollectionReference users() {
+        return _firestore.collection("users");
     }
 }

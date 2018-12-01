@@ -9,4 +9,6 @@ public interface AccountRepository {
     boolean persist(Account account);
 
     Collection<Account> getBy(DiscordUser user);
+
+    boolean delete(DiscordUser user);
 }

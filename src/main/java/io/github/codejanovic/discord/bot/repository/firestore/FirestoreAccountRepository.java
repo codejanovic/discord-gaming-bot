@@ -53,6 +53,20 @@ public class FirestoreAccountRepository implements AccountRepository {
         }
     }
 
+    @Override
+    public boolean delete(final DiscordUser user) {
+        try {
+            final Collection<Account> registeredAccounts = getBy(user);
+            for (Account registeredAccount : registeredAccounts) {
+                accounts().document(registeredAccount.id()).delete().get();
+            }
+            return true;
+        } catch (Exception e) {
+            _log.fatal(new PropertyMessageBuilder(this).withError(e).withMessage("unable to delete all accounts for user " + user.discordUserName()).build());
+            return false;
+        }
+    }
+
     private CollectionReference accounts() {
         return _firestore.collection("accounts");
     }
