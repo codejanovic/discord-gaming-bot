@@ -10,4 +10,4 @@ RUN mkdir -p /usr/app
 WORKDIR /usr/app
 COPY --from=builder /usr/app/target/discord-gaming-bot.jar /usr/app/discord-gaming-bot.jar
 VOLUME /var/lib/discord-gaming-bot
-CMD java -DbotToken=$BOT_TOKEN -Dcredentials=$FIRESTORE_CREDENTIALS -Djava.security.egd=file:/dev/./urandom -jar discord-gaming-bot.jar
+CMD java -Xms1g -Xms2g -DbotToken=$BOT_TOKEN -Dcredentials=$FIRESTORE_CREDENTIALS -Djava.security.egd=file:/dev/./urandom -jar discord-gaming-bot.jar
