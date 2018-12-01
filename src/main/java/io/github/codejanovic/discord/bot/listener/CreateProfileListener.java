@@ -3,6 +3,7 @@ package io.github.codejanovic.discord.bot.listener;
 import io.github.codejanovic.discord.bot.DiscordBot;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import io.github.codejanovic.discord.bot.repository.UsersRepository;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
@@ -22,6 +23,8 @@ import java.util.function.Predicate;
 @Component
 public class CreateProfileListener extends MessageCreatedListener {
 
+    @Inject
+    MessageInterestFactory _interest;
     @Inject
     UsersRepository _usersRepository;
     @Inject

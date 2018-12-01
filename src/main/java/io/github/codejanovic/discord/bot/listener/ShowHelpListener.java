@@ -2,6 +2,7 @@ package io.github.codejanovic.discord.bot.listener;
 
 import io.github.codejanovic.discord.bot.DiscordBot;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
@@ -21,7 +22,10 @@ import java.util.function.Predicate;
 public class ShowHelpListener extends MessageCreatedListener {
 
     @Inject
+    MessageInterestFactory _interest;
+    @Inject
     DiscordBot _bot;
+
 
     @Override
     protected void onReceivedMessageAnywhere(final MessageCreateEvent event, final MessageAuthor author, final User authorAsUser, final Optional<Server> server, final Message message, final List<MessageAttachment> messageAttachments) {

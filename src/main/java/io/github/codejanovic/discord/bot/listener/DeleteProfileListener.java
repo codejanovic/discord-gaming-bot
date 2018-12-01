@@ -2,6 +2,7 @@ package io.github.codejanovic.discord.bot.listener;
 
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import io.github.codejanovic.discord.bot.repository.AccountRepository;
 import io.github.codejanovic.discord.bot.repository.UsersRepository;
 import org.javacord.api.entity.message.Message;
@@ -11,6 +12,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
+import org.jusecase.inject.Component;
 
 import javax.inject.Inject;
 import java.awt.*;
@@ -18,8 +20,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+@Component
 public class DeleteProfileListener extends MessageCreatedListener {
 
+    @Inject
+    MessageInterestFactory _interest;
     @Inject
     UsersRepository _usersRepository;
     @Inject

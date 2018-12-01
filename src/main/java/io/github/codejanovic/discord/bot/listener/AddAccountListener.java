@@ -5,6 +5,7 @@ import io.github.codejanovic.discord.bot.entities.Account;
 import io.github.codejanovic.discord.bot.entities.AccountProvider;
 import io.github.codejanovic.discord.bot.entities.DiscordUser;
 import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListener;
+import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import io.github.codejanovic.discord.bot.repository.AccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.AccountRepository;
 import org.javacord.api.entity.message.Message;
@@ -26,6 +27,8 @@ import java.util.function.Predicate;
 @Component
 public class AddAccountListener extends MessageCreatedListener {
 
+    @Inject
+    MessageInterestFactory _interest;
     @Inject
     AccountProviderRepository _accountProviderRepository;
     @Inject
