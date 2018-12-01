@@ -8,6 +8,7 @@ import io.github.codejanovic.discord.bot.listener.defaults.MessageCreatedListene
 import io.github.codejanovic.discord.bot.listener.interests.MessageInterestFactory;
 import io.github.codejanovic.discord.bot.repository.AccountProviderRepository;
 import io.github.codejanovic.discord.bot.repository.AccountRepository;
+import io.github.codejanovic.discord.bot.repository.UsersRepository;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
@@ -33,6 +34,8 @@ public class AddAccountListener extends MessageCreatedListener {
     AccountProviderRepository _accountProviderRepository;
     @Inject
     AccountRepository _accountRepository;
+    @Inject
+    UsersRepository _usersRepository;
     @Inject
     DiscordBot _bot;
 
@@ -63,7 +66,7 @@ public class AddAccountListener extends MessageCreatedListener {
         }
 
 
-        if (_accountRepository.persist(new Account.Mutable()
+        if (_usersRepository.persist(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build()) && _accountRepository.persist(new Account.Mutable()
                 .withProviderId(matchingProvider.get().id())
                 .withAccountId(account)
                 .withUserId(new DiscordUser.Mutable().withDiscordUser(authorAsUser).build().discordUserName())
